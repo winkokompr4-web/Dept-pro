@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>အကြွေးစာရင်း စီမံခန့်ခွဲမှုစနစ် Pro (Secure Daily Edition)</title>
+    <meta name="theme-color" content="#1e40af">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIuGAnOGAguGDowbhhL7hhK7hhLnhgLrhgLthgK3hhL7hhLbhgK3hhL7huKbhhL7huK3huIEgUHJvIiwKICAic2hvcnRfbmFtZSI6ICLhuKbugLrhgLthgK3hhL7huKbhuIEiLAogICJzdGFydF91cmwiOiAiLiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiI2ZmZmZmZiIsCiAgInRoZW1lX2NvbG9yIjogIiMxZTQwYWYiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJodHRwczovL2Nkbi1pY29ucy1wbmcuZmxhdGljb24uY29tLzUxMi8yNzk9LzI3OTkzODgucG5nIiwKICAgICAgInNpemVzIjogIjUxMng1MTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9wbmciCiAgICB9CiAgXQp9">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: { darkBg: '#0f172a', darkCard: '#1e293b' }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+    #pinScreen {
+    transition: opacity 0.3s ease, visibility 0.3s;
+    opacity: 1;
+    visibility: visible;
+}
+#pinScreen.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+        input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        .modal { transition: opacity 0.25s ease; }
+        body { font-family: system-ui, -apple-system, sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 dark:bg-darkBg dark:text-gray-100 min-h-screen transition-colors duration-200">
+
+    <div id="pinScreen" class="fixed inset-0 z-50 bg-blue-900 text-white flex flex-col items-center justify-center">
+        <div class="text-center max-w-sm w-full px-6">
+            <i onclick="secretLogoClick()" class="fa-solid fa-wallet text-6xl mb-4 text-blue-300 animate-bounce cursor-pointer" title="App Logo"></i>
+            <h1 class="text-3xl font-bold mb-2">အကြွေးစာရင်း Pro</h1>
+            <p id="pinMessage" class="text-blue-200 mb-6">ကျေးဇူးပြု၍ PIN ၄ လုံး ရိုက်ထည့်ပါ</p>
+
+            <div class="flex justify-center gap-4 mb-8">
+                <input type="password" maxlength="1" class="pin-box w-12 h-14 text-center text-2xl font-bold bg-blue-800 border-2 border-blue-600 rounded-lg focus:border-white focus:outline-none" readonly>
+                <input type="password" maxlength="1" class="pin-box w-12 h-14 text-center text-2xl font-bold bg-blue-800 border-2 border-blue-600 rounded-lg focus:border-white focus:outline-none" readonly>
+                <input type="password" maxlength="1" class="pin-box w-12 h-14 text-center text-2xl font-bold bg-blue-800 border-2 border-blue-600 rounded-lg focus:border-white focus:outline-none" readonly>
+                <input type="password" maxlength="1" class="pin-box w-12 h-14 text-center text-2xl font-bold bg-blue-800 border-2 border-blue-600 rounded-lg focus:border-white focus:outline-none" readonly>
+            </div>
+
+            <div class="grid grid-cols-3 gap-4 max-w-xs mx-auto mb-6">
+                <button onclick="pressKey('1')" class="bg-blue-800 hover:bg-blue-700 active:bg-blue-600 p-4 text-xl font-bold rounded-full transition">1</button>
+                <button onclick="pressKey('2')" class="bg-blue-800 hover:bg-blue-700 active:bg-blue-600 p-4 text-xl font-bold rounded-full transition">2</button>
+                <button onclick="pressKey('3')" class="bg-blue-800 hover:bg-blue-700 active:bg-blue-600 p-4 text-xl font-bold rounded-full transition">3</button>
+                <button onclick="pressKey('4')" class="bg-blue-800 hover:bg-blue-700 active:bg-blue-600 p-4 text-xl font-bold rounded-full transition">4</button>
+                <button onclick="pressKey('5')" class="bg-blue-800 hover:bg-blue-700 active:bg-blue-600 p-4 text-xl font-bold rounded-full transition">5</button>
+                <button onclick="pressKey('6')" class="bg-blue-800 hover:bg-blue-700 active:bg-blue-600 p-4 text-xl font-bold rounded-full transition">6</button>
+                <button onclick="pressKey('7')" class="bg-blue-800 hover:bg-blue-700 active:bg-blue-600 p-4 text-xl font-bold rounded-full transition">7</button>
+                <button onclick="pressKey('8')" class="bg-blue-800 hover:bg-blue-700 active:bg-blue-600 p-4 text-xl font-bold rounded-full transition">8</button>
+                <button onclick="pressKey('9')" class="bg-blue-800 hover:bg-blue-700 active:bg-blue-600 p-4 text-xl font-bold rounded-full transition">9</button>
+                <button onclick="clearKey()" class="bg-red-600 hover:bg-red-500 p-4 text-lg font-bold rounded-full transition"><i class="fa-solid fa-trash"></i></button>
+                <button onclick="pressKey('0')" class="bg-blue-800 hover:bg-blue-700 active:bg-blue-600 p-4 text-xl font-bold rounded-full transition">0</button>
+                <button onclick="backspaceKey()" class="bg-gray-600 hover:bg-gray-500 p-4 text-lg font-bold rounded-full transition"><i class="fa-solid fa-backspace"></i></button>
+            </div>
+            
+            </div>
+    </div>
+
+    <div id="appScreen" class="hidden flex flex-col min-h-screen">
+
+        <header class="bg-blue-700 text-white px-6 py-4 sticky top-0 z-40 shadow-md">
+            <div class="max-w-7xl mx-auto flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-wallet text-2xl"></i>
+                    <h1 class="text-xl font-bold">အကြွေးစာရင်း Pro</h1>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button id="btnDarkMode" onclick="toggleDarkMode()" class="text-white hover:bg-blue-600 p-2.5 rounded-full transition" title="Theme ပြောင်းရန်">
+                        <i id="themeIcon" class="fa-solid fa-moon text-lg"></i>
+                    </button>
+                    <button id="btnSettings" onclick="openSettingsModal()" class="text-white hover:bg-blue-600 p-2.5 rounded-full transition" title="PIN ပြောင်းရန်">
+                        <i class="fa-solid fa-gear text-lg"></i>
+                    </button>
+                    <button id="btnLock" onclick="lockApp()" class="text-red-200 hover:bg-red-800 p-2.5 rounded-full transition" title="App ပိတ်ရန်">
+                        <i class="fa-solid fa-lock text-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <div id="backupBanner" class="hidden bg-amber-50 dark:bg-amber-950/40 border-b border-amber-200 dark:border-amber-800 text-amber-700 dark:text-amber-300 text-xs px-4 py-2 flex justify-between items-center gap-3">
+            <span><i class="fa-solid fa-triangle-exclamation mr-1"></i> ဒေတာလုံခြုံရေးအတွက် JSON Backup ကို မကြာခဏ ယူထားရန် အကြံပြုပါသည် (လွန်ခဲ့သော ၇ ရက်အတွင်း Backup မယူရသေးပါ)။</span>
+            <button onclick="dismissBackupBanner()" class="shrink-0 text-amber-500 hover:text-amber-700"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+
+        <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 space-y-6">
+
+            <section class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-white dark:bg-darkCard p-5 rounded-xl shadow-sm border-l-4 border-blue-600 flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-lg bg-blue-100 dark:bg-blue-950 flex items-center justify-center text-blue-600 dark:text-blue-400 text-2xl">
+                        <i class="fa-solid fa-money-bill-wave"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs font-bold text-gray-400 uppercase">စုစုပေါင်း ရရန်ရှိငွေ</p>
+                        <h3 id="totalReceivable" class="text-xl font-black mt-0.5">0 ကျပ်</h3>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-darkCard p-5 rounded-xl shadow-sm border-l-4 border-green-600 flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-lg bg-green-100 dark:bg-green-950 flex items-center justify-center text-green-600 dark:text-green-400 text-2xl">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs font-bold text-gray-400 uppercase">စုစုပေါင်း လူဦးရေ</p>
+                        <h3 id="totalCustomers" class="text-xl font-black mt-0.5">0 ယောက်</h3>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-darkCard p-5 rounded-xl shadow-sm border-l-4 border-amber-500 flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-lg bg-amber-100 dark:bg-amber-950 flex items-center justify-center text-amber-500 text-2xl">
+                        <i class="fa-solid fa-calendar-day"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs font-bold text-gray-400 uppercase">ယနေ့ အပ်ဒိတ်စာရင်း</p>
+                        <h3 id="todayUpdates" class="text-xl font-black mt-0.5">0 ခု</h3>
+                    </div>
+                </div>
+            </section>
+
+            <section class="bg-white dark:bg-darkCard rounded-xl shadow-sm p-5 border border-gray-100 dark:border-gray-800">
+                <h3 class="text-base font-bold mb-4 flex items-center gap-2"><i class="fa-solid fa-pen-to-square text-blue-600"></i> စာရင်းအသစ် ထည့်သွင်းခြင်း</h3>
+                <div class="space-y-4 max-w-2xl">
+                    <div>
+                        <label class="block text-sm font-bold text-gray-500 mb-1">အမည်</label>
+                        <input type="text" id="entryName" placeholder="နာမည်ရိုက်ထည့်ပါ" class="w-full bg-gray-50 dark:bg-gray-800 p-3 rounded-lg border border-gray-200 dark:border-gray-700 text-base focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-bold text-gray-500 mb-1">ပမာဏ (ကျပ်)</label>
+                            <input type="number" id="entryAmount" placeholder="ဂဏန်းသီးသန့်ရိုက်ပါ" class="w-full bg-gray-50 dark:bg-gray-800 p-3 rounded-lg border border-gray-200 dark:border-gray-700 text-base font-bold focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-500 mb-1">အမျိုးအစားသတ်မှတ်ရန်</label>
+                            <select id="entryType" class="w-full bg-gray-50 dark:bg-gray-800 p-3 rounded-lg border border-gray-200 dark:border-gray-700 text-base font-bold focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="debt" class="text-rose-600 font-bold">အကြွေးတင်ငွေ (+) </option>
+                                <option value="payment" class="text-emerald-600 font-bold">ပေးဆပ်ပြန်ရငွေ (-)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-gray-500 mb-1">ရက်စွဲ (Date)</label>
+                        <input type="date" id="entryDate" class="w-full bg-gray-50 dark:bg-gray-800 p-3 rounded-lg border border-gray-200 dark:border-gray-700 text-base focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <p class="text-[11px] text-gray-400 mt-1">* မူရင်းအနေဖြင့် ယနေ့ရက်စွဲ ဖြစ်နေမည်။ ဒီရက်စွဲကို ပြောင်း၍ ရှေ့ရက် (သို့) နောက်ရက် စာရင်းများ ထည့်နိုင်ပါသည်။</p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-gray-500 mb-1">မှတ်ချက် / အကြောင်းအရာ</label>
+                        <input type="text" id="entryNote" placeholder="မှတ်ချက်ထည့်ရန် (မထည့်လည်းရပါသည်)" class="w-full bg-gray-50 dark:bg-gray-800 p-3 rounded-lg border border-gray-200 dark:border-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div class="pt-2">
+                        <button onclick="submitTransactionForm()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black p-3.5 rounded-lg transition shadow-sm flex items-center justify-center gap-2 text-base">
+                            <i class="fa-solid fa-plus"></i> စာရင်းထဲသို့ ပေါင်းထည့်မည် (သိမ်းဆည်းမည်)
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="bg-white dark:bg-darkCard rounded-xl shadow-sm p-5 border border-gray-100 dark:border-gray-800 space-y-4">
+                <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 bg-gray-50 dark:bg-gray-800/50 p-4 rounded-xl">
+                    <h3 class="text-sm font-bold uppercase tracking-wider text-gray-400"><i class="fa-solid fa-table-list mr-1"></i> နေ့စဉ်စာရင်းဇယားများ</h3>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full lg:w-auto">
+                        <div class="relative">
+                            <i class="fa-solid fa-user-magnifying-glass absolute left-3 top-3 text-gray-400 text-xs"></i>
+                            <input type="text" id="searchBar" oninput="renderDailyTables()" placeholder="အမည်ဖြင့် ရှာဖွေရန်..." class="w-full lg:w-56 bg-white dark:bg-gray-900 pl-9 pr-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 text-xs focus:outline-none focus:ring-1 focus:ring-blue-500">
+                        </div>
+                        <div class="flex gap-2">
+                            <div class="relative flex-1">
+                                <i class="fa-solid fa-calendar-check absolute left-3 top-3 text-gray-400 text-xs"></i>
+                                <input type="date" id="dateFilter" onchange="renderDailyTables()" class="w-full bg-white dark:bg-gray-900 pl-9 pr-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 text-xs focus:outline-none focus:ring-1 focus:ring-blue-500">
+                            </div>
+                            <button onclick="clearDateFilter()" class="bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 p-2 rounded-lg text-xs font-bold transition">All</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="dailyTablesContainer" class="space-y-6 max-h-[600px] overflow-y-auto pr-1"></div>
+            </section>
+
+            <section class="bg-white dark:bg-darkCard rounded-xl shadow-sm p-5 border border-gray-100 dark:border-gray-800">
+                <h3 class="text-sm font-bold uppercase text-gray-400 mb-4"><i class="fa-solid fa-database mr-1"></i> ဒေတာ စီမံခန့်ခွဲမှု</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    <button onclick="exportCSV()" class="bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 p-3 rounded-lg font-medium text-xs flex items-center justify-center gap-2 transition border border-gray-200 dark:border-gray-700">
+                        <i class="fa-solid fa-file-csv text-green-600 text-sm"></i> CSV Export
+                    </button>
+                    <label class="bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 p-3 rounded-lg font-medium text-xs flex items-center justify-center gap-2 transition border border-gray-200 dark:border-gray-700 cursor-pointer text-center">
+                        <i class="fa-solid fa-file-import text-green-600 text-sm"></i> CSV Import
+                        <input type="file" id="csvFile" accept=".csv" onchange="importCSV(event)" class="hidden">
+                    </label>
+                    <button onclick="exportJSON()" class="bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 p-3 rounded-lg font-medium text-xs flex items-center justify-center gap-2 transition border border-gray-200 dark:border-gray-700">
+                        <i class="fa-solid fa-file-code text-blue-500 text-sm"></i> JSON Backup
+                    </button>
+                    <label class="bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 p-3 rounded-lg font-medium text-xs flex items-center justify-center gap-2 transition border border-gray-200 dark:border-gray-700 cursor-pointer text-center">
+                        <i class="fa-solid fa-upload text-blue-500 text-sm"></i> JSON Restore
+                        <input type="file" id="jsonFile" accept=".json" onchange="importJSON(event)" class="hidden">
+                    </label>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div id="editModal" class="modal opacity-0 pointer-events-none fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-darkCard w-full max-w-md rounded-2xl p-6 shadow-2xl transform scale-95 transition-transform duration-200">
+            <h3 class="text-lg font-bold mb-4 text-blue-700 dark:text-blue-400"><i class="fa-solid fa-pen mr-1"></i> စာရင်းမှတ်တမ်း ပြင်ဆင်ရန်</h3>
+            <input type="hidden" id="editRowId">
+
+            <div class="mb-3">
+                <label class="block text-xs font-bold text-gray-400 mb-1">အမည်</label>
+                <input type="text" id="editRowName" class="w-full bg-gray-50 dark:bg-gray-800 p-2 rounded-lg border border-gray-200 dark:border-gray-700 focus:outline-none">
+            </div>
+            <div class="mb-3">
+                <label class="block text-xs font-bold text-gray-400 mb-1">ပမာဏ (Amount)</label>
+                <input type="number" id="editRowAmount" class="w-full bg-gray-50 dark:bg-gray-800 p-2.5 rounded-lg border border-gray-200 dark:border-gray-700 text-lg font-bold focus:outline-none">
+            </div>
+            <div class="mb-3">
+                <label class="block text-xs font-bold text-gray-400 mb-1">ရက်စွဲ (Date)</label>
+                <input type="date" id="editRowDate" class="w-full bg-gray-50 dark:bg-gray-800 p-2 rounded-lg border border-gray-200 dark:border-gray-700 focus:outline-none">
+            </div>
+            <div class="mb-3">
+                <label class="block text-xs font-bold text-gray-400 mb-1">အမျိုးအစား</label>
+                <select id="editRowType" class="w-full bg-gray-50 dark:bg-gray-800 p-2 rounded-lg border border-gray-200 dark:border-gray-700 focus:outline-none">
+                    <option value="payment">ပေးဆပ်ပြန်ရငွေ (-)</option>
+                    <option value="debt">အကြွေးတင်ငွေ (+)</option>
+                </select>
+            </div>
+            <div class="mb-4">
+                <label class="block text-xs font-bold text-gray-400 mb-1">မှတ်ချက်</label>
+                <input type="text" id="editRowNote" class="w-full bg-gray-50 dark:bg-gray-800 p-2 rounded-lg border border-gray-200 dark:border-gray-700 focus:outline-none">
+            </div>
+            <div class="flex justify-end gap-3">
+                <button onclick="closeModal('editModal')" class="bg-gray-100 dark:bg-gray-700 px-4 py-2 rounded-lg text-sm font-medium">ပယ်ဖျက်</button>
+                <button onclick="saveRowEdited()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium">Direct Update</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="settingsModal" class="modal opacity-0 pointer-events-none fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-darkCard w-full max-w-md rounded-2xl p-6 shadow-2xl transform scale-95 transition-transform duration-200">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-bold">PIN လုံခြုံရေး ပြောင်းလဲရန်</h3>
+                <button onclick="closeModal('settingsModal')" class="text-gray-400 hover:text-gray-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 mb-1">PIN ကုဒ်အသစ် (ဂဏန်း ၄ လုံး)</label>
+                    <div class="flex gap-2">
+                        <input type="password" id="newPinInput" maxlength="4" placeholder="••••" class="bg-gray-50 dark:bg-gray-800 p-2 rounded-lg border border-gray-200 dark:border-gray-700 text-center w-32 font-bold text-lg tracking-widest focus:outline-none">
+                        <button onclick="changePin()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-bold">သိမ်းမည်</button>
+                    </div>
+                </div>
+                <div class="pt-2 border-t border-gray-100 dark:border-gray-800">
+                    <label class="block text-xs font-bold text-gray-400 mb-1 mt-2">Recovery Key (PIN မေ့ရင်သုံးရန်)</label>
+                    <div class="flex gap-2">
+                        <input type="text" id="newRecoveryInput" placeholder="Recovery Key အသစ် (စာလုံး ၄ လုံးအထက်)" class="flex-1 bg-gray-50 dark:bg-gray-800 p-2 rounded-lg border border-gray-200 dark:border-gray-700 text-sm focus:outline-none">
+                        <button onclick="setRecoveryKey()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-bold">သိမ်းမည်</button>
+                    </div>
+                    <p class="text-[11px] text-gray-400 mt-1">* ဒီ Key ကို ကောင်းစွာမှတ်ထားပါ။ ဆုံးရှုံးပါက PIN ကို ပြန်ရယူ၍ မရတော့ပါ။</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let systemDatabase = {
+            pin: "1234",
+            recoveryKey: null,
+            ledgerRows: []
+        };
+
+        let currentPinInput = "";
+        let isAppUnlocked = false;
+        
+        // Security Variables
+        let logoClicks = 0;
+        let logoTimer = null;
+        let failedAttempts = 0;
+        let lockUntilTime = 0;
+
+        // Offline PWA Service Worker Core
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                const swBlob = new Blob([`
+                    const CACHE_NAME = 'ledger-cache-v4';
+                    const PRECACHE_URLS = [
+                        self.registration.scope,
+                        'https://cdn.tailwindcss.com',
+                        'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css'
+                    ];
+
+                    self.addEventListener('install', e => {
+                        self.skipWaiting();
+                        e.waitUntil(
+                            caches.open(CACHE_NAME).then(cache => {
+                                return Promise.all(PRECACHE_URLS.map(url => {
+                                    return fetch(url, { mode: 'no-cors' })
+                                        .then(res => cache.put(url, res))
+                                        .catch(err => console.log('Precache failed for', url, err));
+                                }));
+                            })
+                        );
+                    });
+
+                    self.addEventListener('activate', e => {
+                        e.waitUntil(
+                            caches.keys().then(keys =>
+                                Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))
+                            ).then(() => clients.claim())
+                        );
+                    });
+
+                    self.addEventListener('fetch', e => {
+                        e.respondWith(
+                            caches.match(e.request).then(cachedResponse => {
+                                const networkFetch = fetch(e.request).then(response => {
+                                    const resClone = response.clone();
+                                    caches.open(CACHE_NAME).then(cache => cache.put(e.request, resClone));
+                                    return response;
+                                }).catch(() => cachedResponse);
+                                return cachedResponse || networkFetch;
+                            })
+                        );
+                    });
+                `], { type: 'application/javascript' });
+                navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => console.log(err));
+            });
+        }
+
+        window.onload = function() {
+            const rawCache = localStorage.getItem("master_ledger_cache_v6");
+            if(rawCache) {
+                systemDatabase = JSON.parse(rawCache);
+                if(!systemDatabase.ledgerRows) systemDatabase.ledgerRows = [];
+                if(!systemDatabase.pin) systemDatabase.pin = "1234";
+                if(systemDatabase.recoveryKey === undefined) systemDatabase.recoveryKey = null;
+            } else {
+                pushCache();
+            }
+
+            if (localStorage.getItem("theme") === "dark" || (!localStorage.getItem("theme") && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+                document.getElementById("themeIcon").className = "fa-solid fa-sun text-lg";
+            } else {
+                document.documentElement.classList.remove('dark');
+                document.getElementById("themeIcon").className = "fa-solid fa-moon text-lg";
+            }
+
+            isAppUnlocked = false;
+            clearKey();
+            checkBruteForceLock();
+        }
+
+        function pushCache() {
+            localStorage.setItem("master_ledger_cache_v6", JSON.stringify(systemDatabase));
+            if(isAppUnlocked) runCalculations();
+        }
+
+        // ---- SECRET EASTER EGG METHOD ----
+        function secretLogoClick() {
+            clearTimeout(logoTimer);
+            logoClicks++;
+            
+            logoTimer = setTimeout(() => {
+                logoClicks = 0;
+            }, 2000); // ၂ စက္ကန့်အတွင်း ၅ ချက် ပြည့်အောင်နှိပ်ရမည်
+
+            if (logoClicks >= 5) {
+                logoClicks = 0;
+                openRecoveryPrompt();
+            }
+        }
+
+function lockApp() {
+    isAppUnlocked = false;
+    currentPinInput = "";
+    
+    // မျက်နှာပြင်ကို ချက်ချင်း ဖုံးအုပ်လိုက်ခြင်း
+    const pinScreen = document.getElementById("pinScreen");
+    pinScreen.classList.remove("hidden");
+    
+    // ပိုသိသာအောင် အသံလေး ဒါမှမဟုတ် အချက်ပြချက်တစ်ခုခု ထည့်ချင်ရင် ဒီနေရာမှာ ထည့်လို့ရပါတယ်
+    // လက်ရှိအနေအထားမှာတော့ PIN Box တွေကို အလွတ်ဖြစ်သွားအောင် လုပ်ထားပါတယ်
+    clearKey();
+    
+    // နောက်ခံ App မျက်နှာပြင်ကို အမှောင်ချခြင်း
+    document.getElementById("appScreen").classList.add("hidden");
+    
+    document.getElementById("pinMessage").innerText = "🔒 App ကို လုံခြုံစွာ ပိတ်ထားသည် - PIN ရိုက်ပါ";
+    document.getElementById("pinMessage").className = "text-red-300 font-bold mb-6 animate-pulse"; // အနီရောင်နဲ့ လှုပ်ခါနေအောင် ပြင်ထားသည်
+}
+
+        function openRecoveryPrompt() {
+            if (!systemDatabase.recoveryKey) {
+                alert("Recovery Key သတ်မှတ်မထားသေးပါ။ ဒီအခြေအနေမှာ PIN ကို ပြန်ရယူ၍ မရနိုင်ပါ။");
+                return;
+            }
+            const answer = prompt("🔒 [Admin Mode] PIN ပြန်လည်သတ်မှတ်ရန် Recovery Key ကို ရိုက်ထည့်ပါ -");
+            if (answer === null) return;
+            if (answer === systemDatabase.recoveryKey) {
+                const newPin = prompt("PIN အသစ် ၄ လုံး ပြန်ရိုက်ထည့်ပါ -");
+                if (newPin && /^\d{4}$/.test(newPin)) {
+                    systemDatabase.pin = newPin;
+                    failedAttempts = 0;
+                    lockUntilTime = 0;
+                    pushCache();
+                    alert("PIN အသစ် လုံခြုံစွာ သတ်မှတ်ပြီးပါပြီ။");
+                } else {
+                    alert("ဂဏန်း ၄ လုံးတိတိ ဖြစ်ရပါမည်။");
+                }
+            } else {
+                alert("Recovery Key မှားယွင်းနေပါသည်။");
+            }
+        }
+
+        function setRecoveryKey() {
+            if(!isAppUnlocked) return;
+            const key = document.getElementById("newRecoveryInput").value.trim();
+            if(key.length < 4) { alert("အနည်းဆုံး စာလုံး/ဂဏန်း ၄ လုံး ရှိရပါမည်!"); return; }
+            systemDatabase.recoveryKey = key;
+            pushCache();
+            alert("Recovery Key သိမ်းဆည်းပြီးပါပြီ!");
+            document.getElementById("newRecoveryInput").value = "";
+        }
+
+        // ---- BRUTE FORCE PROTECTION ENGINE ----
+        function checkBruteForceLock() {
+            const timeLeft = Math.ceil((lockUntilTime - Date.now()) / 1000);
+            if (timeLeft > 0) {
+                document.getElementById("pinMessage").innerText = `⚠️ ကြိုးစားမှုများပြားလွန်းသဖြင့် ${timeLeft} စက္ကန့် ခေတ္တစောင့်ဆိုင်းပါ!`;
+                document.getElementById("pinMessage").className = "text-amber-400 text-xs font-bold mb-6";
+                setTimeout(checkBruteForceLock, 1000);
+                return false;
+            } else if (lockUntilTime !== 0) {
+                lockUntilTime = 0;
+                document.getElementById("pinMessage").innerText = "ကျေးဇူးပြု၍ PIN ၄ လုံး ရိုက်ထည့်ပါ";
+                document.getElementById("pinMessage").className = "text-blue-200 mb-6";
+            }
+            return true;
+        }
+
+        function pressKey(num) {
+            if (!checkBruteForceLock()) return;
+            if (currentPinInput.length < 4) { currentPinInput += num; updatePinDots(); }
+            if (currentPinInput.length === 4) { setTimeout(verifyPin, 180); }
+        }
+        function backspaceKey() { if (!checkBruteForceLock()) return; currentPinInput = currentPinInput.slice(0, -1); updatePinDots(); }
+        function clearKey() { currentPinInput = ""; updatePinDots(); }
+        function updatePinDots() {
+            const boxes = document.querySelectorAll(".pin-box");
+            boxes.forEach((box, idx) => { box.value = currentPinInput[idx] ? "•" : ""; });
+        }
+        
+        function verifyPin() {
+            if (!checkBruteForceLock()) return;
+
+            if (currentPinInput === systemDatabase.pin) {
+                isAppUnlocked = true;
+                failedAttempts = 0;
+                document.getElementById("pinScreen").classList.add("hidden");
+                document.getElementById("appScreen").classList.remove("hidden");
+                setDefaultEntryDate();
+                checkBackupReminder();
+                renderDailyTables();
+            } else {
+                failedAttempts++;
+                if (failedAttempts >= 5) {
+                    lockUntilTime = Date.now() + 30000; // ၃၀ စက္ကန့် ပိတ်ပစ်မည်
+                    checkBruteForceLock();
+                } else {
+                    document.getElementById("pinMessage").innerText = `PIN ကုဒ် မမှန်ပါ။ (ကျန်ရှိသောကြိုးစားခွင့်: ${5 - failedAttempts} ကြိမ်)`;
+                    document.getElementById("pinMessage").className = "text-red-400 font-bold mb-6";
+                }
+                isAppUnlocked = false;
+                clearKey();
+            }
+        }
+
+        function lockApp() {
+            isAppUnlocked = false;
+            currentPinInput = "";
+            document.getElementById("pinMessage").innerText = "ကျေးဇူးပြု၍ PIN ၄ လုံး ရိုက်ထည့်ပါ";
+            document.getElementById("pinMessage").className = "text-blue-200 mb-6";
+            document.getElementById("pinScreen").classList.remove("hidden");
+            document.getElementById("appScreen").classList.add("hidden");
+            clearKey();
+        }
+
+        function toggleDarkMode() {
+            if(!isAppUnlocked) return;
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem("theme", "light");
+                document.getElementById("themeIcon").className = "fa-solid fa-moon text-lg";
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem("theme", "dark");
+                document.getElementById("themeIcon").className = "fa-solid fa-sun text-lg";
+            }
+        }
+
+        // ---- BACKUP REMINDER ----
+        function checkBackupReminder() {
+            const last = localStorage.getItem('last_backup_time');
+            const banner = document.getElementById('backupBanner');
+            if(!banner) return;
+            if(!last || (Date.now() - Number(last)) > 7*24*60*60*1000) {
+                banner.classList.remove('hidden');
+            } else {
+                banner.classList.add('hidden');
+            }
+        }
+        function dismissBackupBanner() {
+            document.getElementById('backupBanner').classList.add('hidden');
+        }
+        function markBackupDone() {
+            localStorage.setItem('last_backup_time', Date.now());
+            checkBackupReminder();
+        }
+
+        function runCalculations() {
+            if(!isAppUnlocked) return;
+            let totalReceivable = 0;
+            let uniquelyNamedCustomers = new Set();
+            let todayCount = 0;
+
+            const todayLocaleStr = new Date().toLocaleDateString();
+
+            systemDatabase.ledgerRows.forEach(row => {
+                const amt = Number(row.amount);
+                if(row.type === 'debt') totalReceivable += amt;
+                if(row.type === 'payment') totalReceivable -= amt;
+
+                if(row.name) uniquelyNamedCustomers.add(row.name.trim().toLowerCase());
+                if(row.rawDateString && row.rawDateString === todayLocaleStr) todayCount++;
+            });
+
+            document.getElementById("totalReceivable").innerText = totalReceivable.toLocaleString() + " ကျပ်";
+            document.getElementById("totalCustomers").innerText = uniquelyNamedCustomers.size + " ယောက်";
+            document.getElementById("todayUpdates").innerText = todayCount + " ခု";
+        }
+
+        // ---- DATE HELPERS ----
+        function setDefaultEntryDate() {
+            const el = document.getElementById("entryDate");
+            if(el && !el.value) el.value = new Date().toISOString().slice(0,10);
+        }
+        function isoToRawDateString(isoStr) {
+            const [y,m,d] = isoStr.split('-').map(Number);
+            return new Date(y, m-1, d).toLocaleDateString();
+        }
+
+        // ---- UNIFIED FORM HANDLER ----
+        function submitTransactionForm() {
+            const typeEl = document.getElementById("entryType");
+            if(typeEl) {
+                addTransaction(typeEl.value);
+            }
+        }
+
+        function addTransaction(type) {
+            if(!isAppUnlocked) { alert("Security Lock Error!"); return; }
+
+            const nameEl = document.getElementById("entryName");
+            const amtEl = document.getElementById("entryAmount");
+            const noteEl = document.getElementById("entryNote");
+            const dateEl = document.getElementById("entryDate");
+
+            const name = nameEl.value.trim();
+            const amount = parseFloat(amtEl.value);
+            const note = noteEl.value.trim() || "-";
+
+            if(!name || isNaN(amount) || amount <= 0) {
+                alert("အမည်နှင့် ပမာဏ (ဂဏန်းသက်သက်၊ သုညထက်ကြီးသော) ကို မှန်ကန်စွာ ဖြည့်စွက်ပါ!");
+                return;
+            }
+
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+
+            let isoDateStr, rawDateString;
+            if (dateEl.value) {
+                isoDateStr = dateEl.value;
+                rawDateString = isoToRawDateString(isoDateStr);
+            } else {
+                const year = now.getFullYear();
+                const month = String(now.getMonth() + 1).padStart(2, '0');
+                const day = String(now.getDate()).padStart(2, '0');
+                isoDateStr = `${year}-${month}-${day}`;
+                rawDateString = now.toLocaleDateString();
+            }
+
+            const newRow = {
+                id: 'row_' + Date.now() + Math.random().toString(36).substr(2, 4),
+                name: name,
+                amount: amount,
+                type: type,
+                note: note,
+                timeLabel: timeStr,
+                isoDate: isoDateStr,
+                rawDateString: rawDateString
+            };
+
+            systemDatabase.ledgerRows.unshift(newRow);
+            pushCache();
+            renderDailyTables();
+
+            nameEl.value = "";
+            amtEl.value = "";
+            noteEl.value = "";
+            setDefaultEntryDate();
+        }
+
+        function renderDailyTables() {
+            if(!isAppUnlocked) return;
+
+            const nameSearchQuery = document.getElementById("searchBar").value.trim().toLowerCase();
+            const dateFilterQuery = document.getElementById("dateFilter").value;
+            const container = document.getElementById("dailyTablesContainer");
+            container.innerHTML = "";
+
+            let filteredRows = systemDatabase.ledgerRows.filter(row => {
+                const matchesName = row.name.toLowerCase().includes(nameSearchQuery) || row.note.toLowerCase().includes(nameSearchQuery);
+                const matchesDate = !dateFilterQuery || row.isoDate === dateFilterQuery;
+                return matchesName && matchesDate;
+            });
+
+            if(filteredRows.length === 0) {
+                container.innerHTML = `<div class="text-center text-gray-400 py-12 text-sm font-medium"><i class="fa-solid fa-folder-open text-3xl mb-2 block opacity-40"></i> ရှာဖွေမှုနှင့် ကိုက်ညီသော စာရင်းမှတ်တမ်း မရှိပါ။</div>`;
+                runCalculations();
+                return;
+            }
+
+            let groupedDataMap = {};
+            filteredRows.forEach(row => {
+                if(!groupedDataMap[row.isoDate]) {
+                    groupedDataMap[row.isoDate] = [];
+                }
+                groupedDataMap[row.isoDate].push(row);
+            });
+
+            const sortedDates = Object.keys(groupedDataMap).sort((a, b) => new Date(b) - new Date(a));
+
+            sortedDates.forEach(dateKey => {
+                const dayRows = groupedDataMap[dateKey];
+                const headerDisplayDate = dayRows[0].rawDateString;
+
+                const tableBlock = document.createElement("div");
+                tableBlock.className = "bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden shadow-sm transition";
+
+                let htmlTemplate = `
+                    <div class="bg-gray-100 dark:bg-gray-800 px-4 py-2.5 flex justify-between items-center border-b border-gray-200 dark:border-gray-700">
+                        <span class="text-xs font-black text-blue-700 dark:text-blue-400 flex items-center gap-1.5">
+                            <i class="fa-solid fa-calendar-day"></i> ရက်စွဲ - ${headerDisplayDate}
+                        </span>
+                        <span class="text-[11px] bg-white dark:bg-gray-700 px-2 py-0.5 rounded-full font-bold text-gray-500 dark:text-gray-300 shadow-sm">
+                            မှတ်တမ်း (${dayRows.length} ခု)
+                        </span>
+                    </div>
+                    <div class="overflow-x-auto w-full">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-gray-50/50 dark:bg-gray-800/40 text-[11px] text-gray-400 font-bold uppercase border-b border-gray-100 dark:border-gray-800">
+                                    <th class="p-3 w-24">အချိန်</th>
+                                    <th class="p-3">အမည်</th>
+                                    <th class="p-3">အကြောင်းအရာ / မှတ်ချက်</th>
+                                    <th class="p-3 text-right text-emerald-500 w-32">ပေးဆပ်ရငွေ (-)</th>
+                                    <th class="p-3 text-right text-rose-500 w-32">အကြွေးတင်ငွေ (+)</th>
+                                    <th class="p-3 text-center w-24">လုပ်ဆောင်ချက်</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100 dark:divide-gray-800 text-sm">
+                `;
+
+                dayRows.forEach(row => {
+                    const isPayment = row.type === 'payment';
+                    htmlTemplate += `
+                        <tr class="hover:bg-gray-50/80 dark:hover:bg-gray-800/20 transition text-gray-700 dark:text-gray-200">
+                            <td class="p-3 text-xs text-gray-400 font-mono">${row.timeLabel}</td>
+                            <td class="p-3 font-bold text-gray-900 dark:text-white">${row.name}</td>
+                            <td class="p-3 text-xs text-gray-500 max-w-[180px] truncate">${row.note}</td>
+                            <td class="p-3 text-right font-extrabold text-emerald-600">${isPayment ? Number(row.amount).toLocaleString() : '-'}</td>
+                            <td class="p-3 text-right font-extrabold text-rose-600">${!isPayment ? Number(row.amount).toLocaleString() : '-'}</td>
+                            <td class="p-3 text-center">
+                                <div class="flex justify-center gap-3">
+                                    <button data-id="${row.id}" class="btn-trigger-edit text-blue-500 hover:text-blue-700 p-1" title="ပြင်ဆင်ရန်"><i class="fa-solid fa-pen-to-square"></i></button>
+                                    <button data-id="${row.id}" class="btn-trigger-delete text-red-400 hover:text-red-600 p-1" title="ဖျက်ရန်"><i class="fa-solid fa-trash-can"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                });
+
+                htmlTemplate += `</tbody></table></div>`;
+                tableBlock.innerHTML = htmlTemplate;
+                container.appendChild(tableBlock);
+            });
+
+            attachActionListeners();
+            runCalculations();
+        }
+
+        function attachActionListeners() {
+            document.querySelectorAll(".btn-trigger-edit").forEach(btn => {
+                btn.onclick = function() {
+                    if(!isAppUnlocked) return;
+                    const id = this.getAttribute("data-id");
+                    triggerRowEdit(id);
+                }
+            });
+
+            document.querySelectorAll(".btn-trigger-delete").forEach(btn => {
+                btn.onclick = function() {
+                    if(!isAppUnlocked) return;
+                    const id = this.getAttribute("data-id");
+                    triggerRowDelete(id);
+                }
+            });
+        }
+
+        function clearDateFilter() {
+            if(!isAppUnlocked) return;
+            document.getElementById("dateFilter").value = "";
+            renderDailyTables();
+        }
+
+        function triggerRowEdit(id) {
+            if(!isAppUnlocked) return;
+            const row = systemDatabase.ledgerRows.find(r => r.id === id);
+            if(!row) return;
+
+            document.getElementById("editRowId").value = row.id;
+            document.getElementById("editRowName").value = row.name;
+            document.getElementById("editRowAmount").value = row.amount;
+            document.getElementById("editRowDate").value = row.isoDate;
+            document.getElementById("editRowType").value = row.type || 'payment';
+            document.getElementById("editRowNote").value = row.note;
+
+            openModal('editModal');
+        }
+
+        function saveRowEdited() {
+            if(!isAppUnlocked) return;
+            const id = document.getElementById("editRowId").value;
+            const name = document.getElementById("editRowName").value.trim();
+            const amount = parseFloat(document.getElementById("editRowAmount").value);
+            const dateVal = document.getElementById("editRowDate").value;
+            const type = document.getElementById("editRowType").value;
+            const note = document.getElementById("editRowNote").value.trim();
+
+            if(!name || isNaN(amount) || amount <= 0) {
+                alert("အမည်နှင့် ပမာဏ (ဂဏန်းသက်သက်၊ သုညထက်ကြီးသော) ကို မှန်ကန်စွာ ဖြည့်စွက်ပါ!");
+                return;
+            }
+
+            const row = systemDatabase.ledgerRows.find(r => r.id === id);
+            if(row) {
+                row.name = name;
+                row.amount = amount;
+                row.type = type;
+                row.note = note || "-";
+                if (dateVal) {
+                    row.isoDate = dateVal;
+                    row.rawDateString = isoToRawDateString(dateVal);
+                }
+
+                pushCache();
+                renderDailyTables();
+                closeModal('editModal');
+            }
+        }
+
+        function triggerRowDelete(id) {
+            if(!isAppUnlocked) return;
+            if(confirm("ဤစာရင်းမှတ်တမ်းအတန်းကို လုံးဝဖျက်ပစ်ရန် သေချက်ပါသလား?")) {
+                systemDatabase.ledgerRows = systemDatabase.ledgerRows.filter(r => r.id !== id);
+                pushCache();
+                renderDailyTables();
+            }
+        }
+
+        // ---- CSV HELPERS ----
+        function csvEscape(val) {
+            return '"' + String(val).replace(/"/g, '""') + '"';
+        }
+        function parseCSVLine(line) {
+            const result = [];
+            let cur = "";
+            let inQuotes = false;
+            for (let i = 0; i < line.length; i++) {
+                const ch = line[i];
+                if (inQuotes) {
+                    if (ch === '"') {
+                        if (line[i+1] === '"') { cur += '"'; i++; }
+                        else { inQuotes = false; }
+                    } else {
+                        cur += ch;
+                    }
+                } else {
+                    if (ch === '"') inQuotes = true;
+                    else if (ch === ',') { result.push(cur); cur = ""; }
+                    else cur += ch;
+                }
+            }
+            result.push(cur);
+            return result;
+        }
+
+        document.title = "Debt-Pro System Engine";
+
+        function exportCSV() {
+            if(!isAppUnlocked) return;
+            if(systemDatabase.ledgerRows.length === 0) { alert("ထုတ်ယူရန် ဒေတာမရှိပါ!"); return; }
+            let csvRows = ["\uFEFFDate,IsoDate,Time,Name,Note,Type,Amount"];
+            systemDatabase.ledgerRows.forEach(r => {
+                csvRows.push([
+                    csvEscape(r.rawDateString),
+                    csvEscape(r.isoDate),
+                    csvEscape(r.timeLabel),
+                    csvEscape(r.name),
+                    csvEscape(r.note),
+                    csvEscape(r.type || 'payment'),
+                    r.amount
+                ].join(","));
+            });
+            const csvBlob = new Blob([csvRows.join("\n")], { type: 'text/csv;charset=utf-8;' });
+            const dlAnchor = document.createElement('a');
+            dlAnchor.href = URL.createObjectURL(csvBlob);
+            dlAnchor.setAttribute("download", `Ledger_Daily_Master_${new Date().toISOString().slice(0,10)}.csv`);
+            document.body.appendChild(dlAnchor); dlAnchor.click(); dlAnchor.remove();
+            markBackupDone();
+        }
+
+        function importCSV(event) {
+            if(!isAppUnlocked) return;
+            const file = event.target.files[0]; if(!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const text = e.target.result;
+                const lines = text.split("\n");
+                let loadedRows = [];
+                for(let i=1; i<lines.length; i++) {
+                    if(!lines[i].trim()) continue;
+                    const parts = parseCSVLine(lines[i].replace(/\r$/, ''));
+                    if(parts.length >= 7) {
+                        loadedRows.push({
+                            id: 'row_imported_' + Date.now() + i + Math.random().toString(36).substr(2, 2),
+                            rawDateString: parts[0],
+                            isoDate: parts[1],
+                            timeLabel: parts[2],
+                            name: parts[3],
+                            note: parts[4],
+                            type: parts[5],
+                            amount: Number(parts[6])
+                        });
+                    }
+                }
+                if(loadedRows.length > 0) {
+                    systemDatabase.ledgerRows = [...loadedRows, ...systemDatabase.ledgerRows];
+                    pushCache(); renderDailyTables(); alert("CSV Imported Successfully!");
+                } else { alert("CSV ဒေတာ ပုံစံ မှားယွင်းနေပါသည်။"); }
+            };
+            reader.readAsText(file);
+        }
+
+        function exportJSON() {
+            if(!isAppUnlocked) return;
+            const jsonStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(systemDatabase, null, 2));
+            const dl = document.createElement('a'); dl.setAttribute("href", jsonStr);
+            dl.setAttribute("download", `Backup_System_Database_${new Date().toISOString().slice(0,10)}.json`);
+            document.body.appendChild(dl); dl.click(); dl.remove();
+            markBackupDone();
+        }
+
+        function importJSON(event) {
+            if(!isAppUnlocked) return;
+            const file = event.target.files[0]; if(!file) return;
+            const r = new FileReader();
+            r.onload = function(e) {
+                try {
+                    const parsed = JSON.parse(e.target.result);
+                    if(parsed.pin && Array.isArray(parsed.ledgerRows)) {
+                        if(parsed.recoveryKey === undefined) parsed.recoveryKey = null;
+                        systemDatabase = parsed; pushCache(); renderDailyTables();
+                        alert("JSON Recovery အောင်မြင်ပါသည်။");
+                    } else { alert("မှားယွင်းသော Backup File ဖြစ်နေသည်။"); }
+                } catch(err) { alert("File ဖတ်မရပါ။"); }
+            };
+            r.readAsText(file);
+        }
+
+        function changePin() {
+            if(!isAppUnlocked) return;
+            const newPin = document.getElementById("newPinInput").value;
+            if(newPin.length === 4 && !isNaN(newPin)) {
+                systemDatabase.pin = newPin; pushCache();
+                alert("PIN ကုဒ်အသစ် ပြောင်းလဲသိမ်းဆည်းပြီးပါပြီ!");
+                document.getElementById("newPinInput").value = ""; closeModal('settingsModal');
+            } else { alert("ဂဏန်း ၄ လုံး ရိုက်ပါ!"); }
+        }
+
+        function openModal(id) {
+            if(!isAppUnlocked) return;
+            const m = document.getElementById(id); m.classList.remove('opacity-0', 'pointer-events-none');
+            m.querySelector('div').classList.replace('scale-95', 'scale-100');
+        }
+        function closeModal(id) {
+            const m = document.getElementById(id); m.classList.add('opacity-0', 'pointer-events-none');
+            m.querySelector('div').classList.replace('scale-100', 'scale-95');
+        }
+        function openSettingsModal() { openModal('settingsModal'); }
+    </script>
+</body>
+</html>
